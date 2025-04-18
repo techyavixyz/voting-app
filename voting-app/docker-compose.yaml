@@ -1,0 +1,25 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: voting
+
+volumes:
+  mongodb_data:
